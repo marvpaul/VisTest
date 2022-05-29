@@ -34,7 +34,6 @@ public class Visualizer : MonoBehaviour
     {
         Permission.RequestUserPermission("android.permission.WRITE_EXTERNAL_STORAGE");
     }
-    presetText.text = "Hello";
     #if UNITY_ANDROID
         activityClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer"); 
         activityContext = activityClass.GetStatic<AndroidJavaObject>("currentActivity");
@@ -81,8 +80,11 @@ public class Visualizer : MonoBehaviour
         #endif
     }
 
+    public float[] spectrum=new float[1024];
+
     void Update()
     { 
-        presetText.text = "Vis: " + visualizerPlugin.CallStatic<sbyte[]>("getFFT")[1];
+        spectrum = visualizerPlugin.CallStatic<float[]>("getFFT");
+        Debug.Log(spectrum.Length);
     }
 }
